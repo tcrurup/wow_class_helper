@@ -6,13 +6,17 @@ class PlayerClass
   
   def initialize(class_name, spec_hash)
     @name = class_name
-    self.create_specializations
+    @specializations = []
+    self.class.all << self
   end
   
-  def create_specializations(spec_hash)
-    spec_hash.each do |key, value|
-      
+  def add_specializations(spec_hash)
+    spec_hash.each do |spec_name, url|
+      new_spec = Specialization.new(spec_name)
     end
   end
   
+  def self.all 
+    @@all
+  end
 end
