@@ -11,8 +11,16 @@ class Scraper
   
   def self.scrape_specialization(spec_url)
     spec_hash = {}
-    rotation_url = spec_url.split("-")[0...-1] << ROTATION_URL_ENDING
-    page = Nokogiri::HTML(open("https://#{rotation_url.join("-")}"))
+    
+    #Spec_page is the main page for the class specialization.  We will parse out the HTML
+    #for certain links for every class page since each one is setup different
+    spec_page = Nokogiri::HTML(open(spec_url))
+    rotations url = spec_page.css("ul.content-main-menu").last.css("a").attribute("href").value
+    spec_hash[:single_rotation] = self.scrape_rotation_single
+  end
+  
+  def self.scrape_rotation_single
+    
   end
   
   def self.scrape_base_classes

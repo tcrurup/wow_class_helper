@@ -12,7 +12,7 @@ class Specialization
   
   def self.populate_all_specializations
     self.all.each do |spec|
-      
+      spec_hash = Scraper.scrape_specialization(spec.url)
     end
   end
   
