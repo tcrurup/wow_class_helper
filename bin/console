@@ -9,8 +9,5 @@ require_relative"../config/environment"
 # (If you use this, don't forget to add pry to your Gemfile!)
 scraper = Scraper.scrape_base_classes
 
-require "pry"
-Pry.start
-
 require "irb"
 IRB.start(__FILE__)
