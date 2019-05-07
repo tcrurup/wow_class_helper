@@ -15,12 +15,15 @@ class Scraper
     #Spec_page is the main page for the class specialization.  We will parse out the HTML
     #for certain links for every class page since each one is setup different
     spec_page = Nokogiri::HTML(open(spec_url))
-    rotations url = spec_page.css("ul.content-main-menu").last.css("a").attribute("href").value
-    spec_hash[:single_rotation] = self.scrape_rotation_single
+    
+    rotations_url = spec_page.css("ul.content-main-menu>li").last.css("a").attribute("href").value
+    rotations_page = Nokogiri::HTML(open(rotations_url))
+    
+    spec_hash[:single_rotation] = self.scrape_single_rotation(rotations_page)
   end
   
-  def self.scrape_rotation_single
-    
+  def self.scrape_single_rotation(rotations_page)
+    rotation_lists = rotations_page.css("div.content-main>div.center-wrap-max").css("div.center-wrap-max").css("ol, ul")
   end
   
   def self.scrape_base_classes
