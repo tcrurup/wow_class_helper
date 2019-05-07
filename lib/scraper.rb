@@ -5,17 +5,15 @@ require 'pry'
 class Scraper
   
   BASE_PATH = "https://www.icy-veins.com/wow/"
-  ROTATION_URL_ENDING = "rotation-cooldown-abilities"
+  ROTATION_URL_ENDING = "rotation-cooldowns-abilities"
   
   def initialize
   end
   
-  def self.scrape_all_specializations
-    Specialization.all.each do |spec|
-      rotation_url = spec.url.split("-")[0...-1] << ROTATION_URL_ENDING
-      page = Nokogiri::HTML(open(rotation_url.join('-')))
-      binding.pry
-    end
+  def self.scrape_specialization(spec_url)
+    spec_hash = {}
+    rotation_url = spec_url.split("-")[0...-1] << ROTATION_URL_ENDING
+    page = Nokogiri::HTML(open("https://#{rotation_url.join("-")}"))
   end
   
   def self.scrape_base_classes
@@ -33,7 +31,6 @@ class Scraper
         spec_name = specialization.text
         unless spec_name.include?("Leveling")
           spec_url = specialization.attribute("href").text.gsub(/\/{2}/, "")
-          binding.pry
           spec_hash[spec_name.to_sym] = spec_url
         end
       end
