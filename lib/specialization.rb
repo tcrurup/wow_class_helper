@@ -10,6 +10,12 @@ class Specialization
     self.class.all << self
   end
   
+  def self.populate_all_specializations
+    self.all.each do |spec|
+      
+    end
+  end
+  
   def self.all
     @@all
   end

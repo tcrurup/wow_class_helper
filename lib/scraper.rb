@@ -5,7 +5,6 @@ require 'pry'
 class Scraper
   
   BASE_PATH = "https://www.noxxic.com/wow/"
-  ROTATION_URL_ENDING = "rotation-cooldowns-abilities"
   
   def initialize
   end
