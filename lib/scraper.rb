@@ -11,7 +11,7 @@ class Scraper
   
   def self.scrape_base_classes
     page = Nokogiri::HTML(open(BASE_PATH))  
-    classes = page.css("div.nav_content_block.nav_content_block_wow_class")
+    classes = page.css("div#nav_classes div.nav_content_block.nav_content_block_wow_class")
     all_classes = []
     
     classes.each do |player_class|

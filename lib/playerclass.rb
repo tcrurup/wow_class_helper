@@ -4,7 +4,7 @@ class PlayerClass
   
   attr_reader :name
   
-  def initialize(class_name, spec_hash)
+  def initialize(class_name)
     @name = class_name
     @specializations = []
     self.class.all << self
