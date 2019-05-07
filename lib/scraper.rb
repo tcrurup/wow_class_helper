@@ -4,7 +4,7 @@ require 'pry'
 
 class Scraper
   
-  BASE_PATH = "https://www.icy-veins.com/wow/"
+  BASE_PATH = "https://www.noxxic.com/wow/"
   ROTATION_URL_ENDING = "rotation-cooldowns-abilities"
   
   def initialize
@@ -18,27 +18,22 @@ class Scraper
   
   def self.scrape_base_classes
     page = Nokogiri::HTML(open(BASE_PATH))  
-    classes = page.css("div#nav_classes div.nav_content_block.nav_content_block_wow_class")
+    classes = page.css("ul.dr>li")
     all_classes = []
-    
     classes.each do |player_class|
       class_hash = {}
+      class_hash[:name] = player_class.css("a").first.text
+      
       spec_hash = {}
-      class_hash[:name] = player_class.css("div.nav_content_block_title span:last-child").text
-      
-      
-      player_class.css("div.nav_content_block_entry a").each do |specialization|
+      player_class.css("ul li").each do |specialization|
         spec_name = specialization.text
-        unless spec_name.include?("Leveling")
-          spec_url = specialization.attribute("href").text.gsub(/\/{2}/, "")
-          spec_hash[spec_name.to_sym] = spec_url
-        end
+        spec_url = specialization.css("a").attribute("href").value
+        spec_hash[spec_name.to_sym] = spec_url
       end
       
       class_hash[:specializations] = spec_hash
       all_classes << class_hash
     end
-    
     all_classes
   end
 end
