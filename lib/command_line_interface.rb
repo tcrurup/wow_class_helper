@@ -10,16 +10,15 @@ class CommandLineInterface
   def run
     self.create_all_classes
     self.interface
-    
   end
   
   def interface 
     puts "Welcome to the Wow Class Helper"
-    puts "What class would you like to look at?"
     chosen_class = nil
     while chosen_class.nil? 
+      puts "What class would you like to look at?"
       input = gets.strip
-      PlayerClass.find_by_class_name(input).nil?
+      chosen_class = PlayerClass.find_by_class_name(input)
     end
   end
   
