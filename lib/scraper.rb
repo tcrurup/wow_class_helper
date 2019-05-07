@@ -14,7 +14,8 @@ class Scraper
     classes = page.css("div.nav_content_block.nav_content_block_wow_class")
     
     classes.each do |player_class|
-      class_name = player_class.css("div.nav_content_block_title span:last-child").text
+      class_hash = {}
+      class_hash[:name] = player_class.css("div.nav_content_block_title span:last-child").text
     end
     
   end
