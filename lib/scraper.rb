@@ -34,5 +34,4 @@ class Scraper
     
     all_classes
   end
-  
 end
