@@ -2,18 +2,25 @@ class PlayerClass
   
   @@all = []
   
+  attr_accessor :specializations
   attr_reader :name
   
-  def initialize(class_name)
+  
+  def initialize(class_name, spec_hash)
     @name = class_name
-    @specializations = []
-    self.class.all << self
+    self.specializations = []
+    self.add_specializations(spec_hash)
+    self.save
   end
   
   def add_specializations(spec_hash)
     spec_hash.each do |spec_name, url|
-      new_spec = Specialization.new(spec_name)
+      self.specializations << Specialization.new(spec_name, url)
     end
+  end
+  
+  def save
+    self.class.all << self
   end
   
   def self.all 

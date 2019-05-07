@@ -9,7 +9,8 @@ class CommandLineInterface
   
   def run
     self.create_all_classes
-    self.interface
+    Scraper.scrape_all_specializations
+    #self.interface
   end
   
   def interface 
@@ -24,10 +25,8 @@ class CommandLineInterface
   
   def create_all_classes
     Scraper.scrape_base_classes.each do |class_hash|
-      new_class = PlayerClass.new(class_hash[:name])
-      new_class.add_specializations(class_hash[:specializations])
+      PlayerClass.new(class_hash[:name], class_hash[:specializations])
     end
   end
-  
   
 end
