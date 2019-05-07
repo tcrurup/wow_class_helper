@@ -23,7 +23,33 @@ class Scraper
   end
   
   def self.scrape_single_rotation(rotations_page)
+    
+    #There are three lists on every page and the all correlate the same.  Single target rotation 
+    #is always first, followed by AOE, and finally Cooldowns.  These lists are put into an array 
+    #and accessed via their index number
+    
     rotation_lists = rotations_page.css("div.content-main>div.center-wrap-max").css("div.center-wrap-max").css("ol, ul")
+    
+    rotation = []
+    rotation_lists[0].css("li").each do |rotation_step|
+      str = []
+      
+      ##Each rotation step on the website also contains links to certain abilities.  This will 
+      #leave any regular text alone and transform any hyperlinks into regular text
+      rotation_step.children.each do |child|
+        
+        #While both of these are the same I want to leave space to create Ability objects and the 
+        #Nokogiri::XML::Element will return elements that contain data for scraping 
+        case child
+          when Nokogiri::XML::Text 
+            str << child.text.strip
+          when Nokogiri::XML::Element 
+            str << child.text.strip
+        end
+      end
+      rotation << str.join
+    end
+    binding.pry
   end
   
   def self.scrape_base_classes
