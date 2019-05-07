@@ -19,4 +19,9 @@ class PlayerClass
   def self.all 
     @@all
   end
+  
+  def self.find_by_class_name(class_name)
+    self.all.detect{ |player_class| player_class.name.downcase == class_name.downcase }
+  end
+  
 end
