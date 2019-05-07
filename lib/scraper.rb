@@ -34,7 +34,10 @@ class Scraper
     rotations_and_cooldowns_hash = {}
     rotation_lists = rotations_page.css("div.content-main>div.center-wrap-max").css("div.center-wrap-max").css("ol, ul")
     rotations_and_cooldowns_hash[:single_target_rotation] = self.scrape_single_target_rotation(rotation_lists[0])
-    rotations_and_cooldowns_hash
+    rotations_and_cooldowns_hash[:aoe_target_rotation] = self.scrape_aoe_target_rotation
+  end
+  
+  def self.scrape_aoe_target_rotation
   end
   
   def self.scrape_single_target_rotation(rotation_elements)
