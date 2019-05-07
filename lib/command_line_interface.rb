@@ -11,7 +11,9 @@ class CommandLineInterface
   end
   
   def create_all_classes
-    classes = Scraper.scrape_base_classes
+    Scraper.scrape_base_classes.each do |class_hash|
+      PlayerClass.new(class_hash[:name], class_hash[:specializations])
+    end
   end
   
   

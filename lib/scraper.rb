@@ -16,9 +16,10 @@ class Scraper
     
     classes.each do |player_class|
       class_hash = {}
+      spec_hash = {}
       class_hash[:name] = player_class.css("div.nav_content_block_title span:last-child").text
       
-      spec_hash = {}
+      
       player_class.css("div.nav_content_block_entry a").each do |specialization|
         spec_name = specialization.text
         unless spec_name.include?("Leveling")
@@ -33,4 +34,5 @@ class Scraper
     
     all_classes
   end
+  
 end
