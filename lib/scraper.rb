@@ -19,19 +19,27 @@ class Scraper
     rotations_url = spec_page.css("ul.content-main-menu>li").last.css("a").attribute("href").value
     rotations_page = Nokogiri::HTML(open(rotations_url))
     
-    spec_hash[:single_rotation] = self.scrape_single_rotation(rotations_page)
+    self.scrape_rotations_and_cooldowns(rotations_page).each do |key, value|
+      spec_hash[key.to_sym] = value 
+    end
+    binding.pry
   end
   
-  def self.scrape_single_rotation(rotations_page)
+  def self.scrape_rotations_and_cooldowns(rotations_page)
     
     #There are three lists on every page and the all correlate the same.  Single target rotation 
     #is always first, followed by AOE, and finally Cooldowns.  These lists are put into an array 
     #and accessed via their index number
     
+    rotations_and_cooldowns_hash = {}
     rotation_lists = rotations_page.css("div.content-main>div.center-wrap-max").css("div.center-wrap-max").css("ol, ul")
-    
+    rotations_and_cooldowns_hash[:single_target_rotation] = self.scrape_single_target_rotation(rotation_lists[0])
+    rotations_and_cooldowns_hash
+  end
+  
+  def self.scrape_single_target_rotation(rotation_elements)
     rotation = []
-    rotation_lists[0].css("li").each do |rotation_step|
+    rotation_elements.css("li").each do |rotation_step|
       str = []
       
       ##Each rotation step on the website also contains links to certain abilities.  This will 
@@ -47,9 +55,9 @@ class Scraper
             str << child.text.strip
         end
       end
-      rotation << str.join
+      rotation << str.join(" ")
     end
-    binding.pry
+    rotation
   end
   
   def self.scrape_base_classes
