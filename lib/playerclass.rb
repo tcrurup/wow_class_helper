@@ -14,6 +14,7 @@ class PlayerClass
   end
   
   def add_specializations(spec_hash)
+    binding.pry
     spec_hash.each do |spec_name, url|
       self.specializations << Specialization.new(spec_name, url)
     end

@@ -1,6 +1,7 @@
 class Specialization
   
   attr_reader :name, :url
+  attr_accessor :single_target_rotation, :aoe_rotation, :cooldowns
   
   @@all = []
   
@@ -14,8 +15,7 @@ class Specialization
   def assign_rotations_and_cooldowns
       Scraper.scrape_rotations_and_cooldowns(self.url).each do |key, elements_array|
         new_page_section = PageSection.new(elements_array)
-        binding.pry
-        self.send(key, new_page_section)
+        self.send("#{key}=", new_page_section)
       end
   end
   
