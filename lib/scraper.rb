@@ -16,13 +16,19 @@ class Scraper
     #for certain links for every class page since each one is setup different
     spec_page = Nokogiri::HTML(open(spec_url))
     
-    rotations_url = spec_page.css("ul.content-main-menu>li").last.css("a").attribute("href").value
-    rotations_page = Nokogiri::HTML(open(rotations_url))
+    rotations_url = String.new
+    spec_page.css("ul.content-main-menu>li").each do |menu_option|
+      if menu_option.css("a").text.downcase.include?("cooldown")
+        rotations_url = menu_option.css("a").attribute("href").text 
+        binding.pry
+      end
+    end
     
+    binding.pry
+    rotations_page = Nokogiri::HTML(open(rotations_url))
     self.scrape_rotations_and_cooldowns(rotations_page).each do |key, value|
       spec_hash[key.to_sym] = value 
     end
-    binding.pry
   end
   
   def self.scrape_rotations_and_cooldowns(rotations_page)
@@ -33,14 +39,13 @@ class Scraper
     
     rotations_and_cooldowns_hash = {}
     rotation_lists = rotations_page.css("div.content-main>div.center-wrap-max").css("div.center-wrap-max").css("ol, ul")
-    rotations_and_cooldowns_hash[:single_target_rotation] = self.scrape_single_target_rotation(rotation_lists[0])
-    rotations_and_cooldowns_hash[:aoe_target_rotation] = self.scrape_aoe_target_rotation
+    rotations_and_cooldowns_hash[:single_target_rotation] = self.scrape_from_element_list(rotation_lists[0])
+    rotations_and_cooldowns_hash[:aoe_target_rotation] = self.scrape_from_element_list(rotation_lists[1])
+    rotations_and_cooldowns_hash[:cooldowns] = self.scrape_from_element_list(rotation_lists[2])
+    rotations_and_cooldowns_hash
   end
   
-  def self.scrape_aoe_target_rotation
-  end
-  
-  def self.scrape_single_target_rotation(rotation_elements)
+  def self.scrape_from_element_list(rotation_elements)
     rotation = []
     rotation_elements.css("li").each do |rotation_step|
       str = []
