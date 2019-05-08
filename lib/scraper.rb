@@ -9,19 +9,15 @@ class Scraper
   def initialize
   end
   
-  def self.scrape_specialization(spec_url)
-    spec_hash = {}
+  def self.scrape_specialization(spec_url, spec_obj)
     
     #Spec_page is the main page for the class specialization.  We will parse out the HTML
     #for certain links for every class page since each one is setup different
     spec_page = Nokogiri::HTML(open(spec_url))
-    
     rotations_url = self.find_cooldowns_and_rotations_url(spec_page)
     rotations_page = Nokogiri::HTML(open(rotations_url))
     
-    self.scrape_rotations_and_cooldowns(rotations_page).each do |key, value|
-      spec_hash[key.to_sym] = value 
-    end
+    self.scrape_rotations_and_cooldowns(rotations_page, spec_obj)
   end
   
   def self.find_cooldowns_and_rotations_url(spec_page)
@@ -32,7 +28,7 @@ class Scraper
     end
   end
   
-  def self.scrape_rotations_and_cooldowns(rotations_page)
+  def self.scrape_rotations_and_cooldowns(rotations_page, spec_obj)
     
     #There are three lists on every page and the all correlate the same.  Single target rotation 
     #is always first, followed by AOE, and finally Cooldowns.  These lists are put into an array 
@@ -41,11 +37,18 @@ class Scraper
     rotations_and_cooldowns_hash = {}
     page_elements = rotations_page.css("div.content-main>div.center-wrap-max").css("div.center-wrap-max").children
     
-    element = page_elements.first
+    first_element = page_elements.first
+    page_element_hash = self.iterate_through_and_sort_elements(first_element, spec_obj)
+    
+    
+    binding.pry
+  end
+  
+  def self.iterate_through_and_sort_elements(element, spec_obj)
+    
     single_target_rotation_elements = []
     aoe_rotation_elements = []
     cooldown_elements = []
-    
     
     until element.text == "Single Target Rotation"
       #Do nothing, nothing before the first rotation list is needed
@@ -54,12 +57,12 @@ class Scraper
     
     until element.text == "AoE Rotation"
       #Everything before AoE rotation section belongs to Single Target Rotation
-      single_target_rotation_elements << element
+      single_target_rotation_elements << element)
       element = element.next
     end
     
     until element.text == "Effective Cooldowns"
-      aoe_rotation_elements << element
+      aoe_rotation_elements << element)
       element = element.next
       #Everything before Effective Cooldowns section belongs to AoE Rotation
     end
@@ -68,19 +71,24 @@ class Scraper
       cooldown_elements << element
       element = element.next
     end
-
-    data_hash = {}
-    data_hash[:notes] = Array.new
-    single_target_rotation_elements.each do |e| 
-      if e.name == "h1" 
-        data_hash[:title] = e.text
-      elsif e.name == "p" && e.text != "" 
-        data_hash[:notes] << e.text
-      elsif e.name == "ol" || e.name == "ul"
-        data_hash[:list] = scrape_from_element_list(e)
-      end
-    end
+    
+    all_elements = {}
+    all_elements[:single_target_rotation] = single_target_rotation
+    all_elements[:aoe_rotation] = aoe_rotation
+    all_elements[:cooldowns] = cooldowns
     binding.pry
+    all_elements
+  end
+  
+  def self.scrape_from_element(element)
+    binding.pry
+    if element.name == "h1" 
+        hash[:title] = element.text
+    elsif element.name == "p" && element.text != "" 
+        hash[:notes] << element.text
+    elsif element.name == "ol" || element.name == "ul"
+        hash[:list] = scrape_from_element_list(element)
+    end
   end
   
   def self.scrape_from_element_list(rotation_elements)
@@ -126,4 +134,5 @@ class Scraper
     end
     all_classes
   end
+  
 end

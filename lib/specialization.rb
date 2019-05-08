@@ -1,6 +1,6 @@
 class Specialization
   
-  attr_reader :name, :url
+  attr_reader :name, :url, :single_target_rotation, :aoe_rotation, :cooldowns
   
   @@all = []
   
@@ -12,7 +12,7 @@ class Specialization
   
   def self.populate_all_specializations
     self.all.each do |spec|
-      spec_hash = Scraper.scrape_specialization(spec.url)
+      spec_hash = Scraper.scrape_specialization(spec.url, self)
     end
   end
   
