@@ -16,18 +16,19 @@ class Scraper
     #for certain links for every class page since each one is setup different
     spec_page = Nokogiri::HTML(open(spec_url))
     
-    rotations_url = String.new
-    spec_page.css("ul.content-main-menu>li").each do |menu_option|
-      if menu_option.css("a").text.downcase.include?("cooldown")
-        rotations_url = menu_option.css("a").attribute("href").text 
-        binding.pry
-      end
-    end
-    
-    binding.pry
+    rotations_url = self.find_cooldowns_and_rotations_url(spec_page)
     rotations_page = Nokogiri::HTML(open(rotations_url))
+    
     self.scrape_rotations_and_cooldowns(rotations_page).each do |key, value|
       spec_hash[key.to_sym] = value 
+    end
+  end
+  
+  def self.find_cooldowns_and_rotations_url(spec_page)
+    spec_page.css("ul.content-main-menu>li").each do |menu_option|
+      if menu_option.css("a").text.downcase.include?("cooldown")
+        return menu_option.css("a").attribute("href").text 
+      end
     end
   end
   
@@ -38,7 +39,36 @@ class Scraper
     #and accessed via their index number
     
     rotations_and_cooldowns_hash = {}
-    rotation_lists = rotations_page.css("div.content-main>div.center-wrap-max").css("div.center-wrap-max").css("ol, ul")
+    page_elements = rotations_page.css("div.content-main>div.center-wrap-max").css("div.center-wrap-max").children
+    
+    element = page_elements.first
+    single_target_rotation_elements = []
+    aoe_rotation_elements = []
+    cooldown_elements = []
+    
+    
+    until element.text == "Single Target Rotation"
+      #Do nothing, nothing before the first rotation list is needed
+      element = element.next
+    end
+    
+    until element.text == "AoE Rotation"
+      #Everything before AoE rotation section belongs to Single Target Rotation
+      single_target_rotation_elements << element
+      element = element.next
+    end
+    
+    until element.text == "Effective Cooldowns"
+      aoe_rotation_elements << element
+      element = element.next
+      #Everything before Effective Cooldowns section belongs to AoE Rotation
+    end
+    
+    until element.next == nil
+      cooldown_elements << element
+      element = element.next
+    end
+  
     rotations_and_cooldowns_hash[:single_target_rotation] = self.scrape_from_element_list(rotation_lists[0])
     rotations_and_cooldowns_hash[:aoe_target_rotation] = self.scrape_from_element_list(rotation_lists[1])
     rotations_and_cooldowns_hash[:cooldowns] = self.scrape_from_element_list(rotation_lists[2])
