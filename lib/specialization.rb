@@ -1,19 +1,22 @@
 class Specialization
   
-  attr_reader :name, :url, :single_target_rotation, :aoe_rotation, :cooldowns
+  attr_reader :name, :url
   
   @@all = []
   
   def initialize(spec_name, url)
     @name = spec_name
     @url = url
+    self.assign_rotations_and_cooldowns
     self.class.all << self
   end
   
-  def self.populate_all_specializations
-    self.all.each do |spec|
-      spec_hash = Scraper.scrape_specialization(spec.url, self)
-    end
+  def assign_rotations_and_cooldowns
+      Scraper.scrape_rotations_and_cooldowns(self.url).each do |key, elements_array|
+        new_page_section = PageSection.new(elements_array)
+        binding.pry
+        self.send(key, new_page_section)
+      end
   end
   
   def self.all
