@@ -68,11 +68,19 @@ class Scraper
       cooldown_elements << element
       element = element.next
     end
-  
-    rotations_and_cooldowns_hash[:single_target_rotation] = self.scrape_from_element_list(rotation_lists[0])
-    rotations_and_cooldowns_hash[:aoe_target_rotation] = self.scrape_from_element_list(rotation_lists[1])
-    rotations_and_cooldowns_hash[:cooldowns] = self.scrape_from_element_list(rotation_lists[2])
-    rotations_and_cooldowns_hash
+
+    data_hash = {}
+    data_hash[:notes] = Array.new
+    single_target_rotation_elements.each do |e| 
+      if e.name == "h1" 
+        data_hash[:title] = e.text
+      elsif e.name == "p" && e.text != "" 
+        data_hash[:notes] << e.text
+      elsif e.name == "ol" || e.name == "ul"
+        data_hash[:list] = scrape_from_element_list(e)
+      end
+    end
+    binding.pry
   end
   
   def self.scrape_from_element_list(rotation_elements)
