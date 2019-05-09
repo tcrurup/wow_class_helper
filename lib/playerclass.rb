@@ -29,6 +29,23 @@ class PlayerClass
     self.specializations.detect{ |spec| spec.name.to_s == spec_name }
   end
   
+  def self.prompt_user_to_select
+    chosen_class = nil
+    while chosen_class.nil?
+      puts "What class would you like to look at? ('exit' to quit)"
+      puts "'quit' to quit, 'show classes' to view all options"
+      input = gets.strip
+      case input
+      when "show classes"
+        self.print_all_classes
+      else
+       chosen_class = PlayerClass.find_by_class_name(input)
+       puts "invalid option " if chosen_class.nil?
+      end
+    end
+    chosen_class
+  end
+  
   def save
     self.class.all << self
   end

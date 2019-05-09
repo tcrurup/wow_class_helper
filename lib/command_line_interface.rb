@@ -5,7 +5,6 @@ class CommandLineInterface
   
   def intialize
     @status = "ready"
-    @current_class = nil
   end
   
   def run
@@ -17,36 +16,22 @@ class CommandLineInterface
   def interface 
     system("clear")
     puts "Welcome to the Wow Class Helper"
-    while self.status == "running" && self.current_class == nil
-      self.current_class = self.prompt_for_class
-      if self.current_class.class == PlayerClass
-        
-        chosen_spec = prompt_for_specialization
-        #Ask for specialization
+    while self.status == "running" 
+      current_class = PlayerClass.prompt_for_class
+      unless current_class.nil?
+        current_spec = current_class.prompt_for_spec
       end
     end
   end
   
   def prompt_for_specialization
     
-  end
-  
-  def prompt_for_class
-    
-    chosen_class = nil
-    puts "What class would you like to look at? ('exit' to quit)"
-    puts ("'exit' to quit, 'show classes' to view all options")
+    puts "Which specilization would you like to view?"
+    puts "'exit' to go back, 'show specializations' to view all options"
     input = gets.strip
-    case input
-    when "show classes"
-      PlayerClass.print_all_classes
-    when "exit"
-      self.status = "closing"
-    else
-      chosen_class = PlayerClass.find_by_class_name(input)
-      puts "invalid option " if chosen_class.nil?
-    end
-    chosen_class
+    when "show specializations"
+      
+    
   end
   
   def create_all_classes
