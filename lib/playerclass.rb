@@ -41,4 +41,8 @@ class PlayerClass
     self.all.detect{ |player_class| player_class.name.downcase == class_name.downcase }
   end
   
+  def self.print_all_classes
+    self.all.each{ |player_class| puts player_class.name }
+  end
+  
 end

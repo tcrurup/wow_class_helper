@@ -9,7 +9,7 @@ require_relative"../config/environment"
 # (If you use this, don't forget to add pry to your Gemfile!)
 CommandLineInterface.new.run
 
-pry.start
+#pry.start
 
 #require "irb"
 #IRB.start(__FILE__)
