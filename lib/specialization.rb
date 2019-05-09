@@ -1,13 +1,14 @@
 class Specialization
   
   attr_reader :name, :url
-  attr_writer :single_target_rotation, :aoe_rotation, :cooldowns, :parent_class
+  attr_writer :single_target_rotation, :aoe_rotation, :cooldowns
+  attr_accessor :parent_class
   
   @@all = []
   
   VALID_MENU_OPTIONS = [
     "single target rotation",
-    "aoe_rotation",
+    "aoe rotation",
     "cooldowns"
   ]
   
@@ -39,7 +40,30 @@ class Specialization
   
   def menu_prompt
     system("clear")
-    puts "What would you like to view for #{self.parent_class.name} #{self.name}"
+    input = String.new 
+    until input == "back"
+      puts "What would you like to view for the #{self.name} #{self.parent_class.name}?"
+      puts "Type 'help' for a list of options"
+      input = gets.strip
+      case input
+      when "help"
+        self.show_menu_options
+      when "single target rotation"
+        self.single_target_rotation.display
+      when "aoe rotation"
+        self.aoe_rotation.display
+      when "cooldowns"
+        self.cooldowns.display
+      end
+    end
+  end
+  
+  def show_menu_options
+    all_options = []
+    VALID_MENU_OPTIONS.each do |option|
+      all_options << option
+    end
+    puts all_options.join(" | ")
   end
   
   def self.all
