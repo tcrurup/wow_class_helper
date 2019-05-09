@@ -17,22 +17,13 @@ class CommandLineInterface
     system("clear")
     puts "Welcome to the Wow Class Helper"
     while self.status == "running" 
-      current_class = PlayerClass.prompt_for_class
+      current_class = PlayerClass.prompt_user_to_select_class
       unless current_class.nil?
-        current_spec = current_class.prompt_for_spec
+        current_spec = current_class.prompt_user_to_select_specialization
       end
     end
   end
   
-  def prompt_for_specialization
-    
-    puts "Which specilization would you like to view?"
-    puts "'exit' to go back, 'show specializations' to view all options"
-    input = gets.strip
-    when "show specializations"
-      
-    
-  end
   
   def create_all_classes
     Scraper.scrape_base_classes.each do |class_hash|

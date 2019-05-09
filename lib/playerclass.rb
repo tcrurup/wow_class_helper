@@ -20,16 +20,30 @@ class PlayerClass
   end
   
   def show_specializations
+    all_specs = []
     self.specializations.each do |spec|
-      puts spec.name
+      all_specs << spec.name
     end
+    puts all_specs.join(" | ")
   end
   
   def get_spec_by_name(spec_name)
-    self.specializations.detect{ |spec| spec.name.to_s == spec_name }
+    self.specializations.detect{ |spec| spec.name.to_s.downcase == spec_name.downcase}
   end
   
-  def self.prompt_user_to_select
+  def prompt_user_to_select_specialization
+    chosen_specialization = nil
+    while chosen_specialization.nil?
+      puts "What specialization would you like to look at?"
+      self.show_specializations
+      input = gets.strip
+      chosen_specialization = self.get_spec_by_name(input)
+      puts "invalid option " if chosen_specialization.nil?
+    end
+    chosen_specialization
+  end
+  
+  def self.prompt_user_to_select_class
     chosen_class = nil
     while chosen_class.nil?
       puts "What class would you like to look at? ('exit' to quit)"
