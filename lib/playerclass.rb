@@ -26,7 +26,7 @@ class PlayerClass
   end
   
   def get_spec_by_name(spec_name)
-    self.specializations.detect{ |spec| spec.name == spec_name }
+    self.specializations.detect{ |spec| spec.name.to_s == spec_name }
   end
   
   def save

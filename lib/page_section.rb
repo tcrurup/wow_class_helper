@@ -19,4 +19,13 @@ class PageSection
     end
   end
   
+  def display
+    
+    puts self.title
+    puts "----------------------------"
+    puts self.list
+    puts "*notes*"
+    puts self.notes
+  end
+  
 end
