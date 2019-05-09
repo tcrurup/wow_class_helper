@@ -26,6 +26,5 @@ class CommandLineInterface
     Scraper.scrape_base_classes.each do |class_hash|
       PlayerClass.new(class_hash[:name], class_hash[:specializations])
     end
-    Specialization.populate_all_specializations
   end
 end

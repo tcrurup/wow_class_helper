@@ -87,7 +87,6 @@ class Scraper
   def self.scrape_base_classes
     page = Nokogiri::HTML(open(BASE_PATH))  
     classes = page.css("li.dd").first.css("ul.dr>li")
-    binding.pry
     all_classes = []
     classes.each do |player_class|
       class_hash = {}
@@ -104,7 +103,6 @@ class Scraper
       all_classes << class_hash
     end
     all_classes
-    binding.pry
   end
   
 end
