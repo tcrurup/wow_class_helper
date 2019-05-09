@@ -1,9 +1,15 @@
 class Specialization
   
   attr_reader :name, :url
-  attr_writer :single_target_rotation, :aoe_rotation, :cooldowns
+  attr_writer :single_target_rotation, :aoe_rotation, :cooldowns, :parent_class
   
   @@all = []
+  
+  VALID_MENU_OPTIONS = [
+    "single target rotation",
+    "aoe_rotation",
+    "cooldowns"
+  ]
   
   def initialize(spec_name, url)
     @name = spec_name
@@ -29,6 +35,11 @@ class Specialization
   
   def cooldowns 
     @cooldowns.display
+  end
+  
+  def menu_prompt
+    system("clear")
+    puts "What would you like to view for #{self.parent_class.name} #{self.name}"
   end
   
   def self.all

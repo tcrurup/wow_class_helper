@@ -15,7 +15,9 @@ class PlayerClass
   
   def add_specializations(spec_hash)
     spec_hash.each do |spec_name, url|
-      self.specializations << Specialization.new(spec_name, url)
+      new_spec = Specialization.new(spec_name, url)
+      self.specializations << new_spec
+      new_spec.parent_class = self
     end
   end
   

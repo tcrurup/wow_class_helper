@@ -17,9 +17,15 @@ class CommandLineInterface
     system("clear")
     puts "Welcome to the Wow Class Helper"
     while self.status == "running" 
+      
       current_class = PlayerClass.prompt_user_to_select_class
       unless current_class.nil?
+        
         current_spec = current_class.prompt_user_to_select_specialization
+        unless current_spec.nil?
+        
+        current_spec.menu_prompt
+        end
       end
     end
   end
