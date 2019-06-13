@@ -9,8 +9,12 @@ class CommandLineInterface
   end
   
   def run
-    self.status = "running"
-    self.interface
+    if self.status == "ready"
+      self.status = "running"
+      self.interface
+    else
+      puts "CLI is not ready to run."
+    end
   end
   
   def interface 
