@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require_relative"../config/environment"
+require_relative "../config/environment.rb"
 
 
 # You can add fixtures and/or initialization code here to make experimenting
@@ -9,7 +9,7 @@ require_relative"../config/environment"
 # (If you use this, don't forget to add pry to your Gemfile!)
 CommandLineInterface.new.run
 
-#pry.start
+pry.start
 
 #require "irb"
 #IRB.start(__FILE__)
