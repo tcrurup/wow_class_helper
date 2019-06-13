@@ -18,14 +18,14 @@ class CommandLineInterface
     puts "Welcome to the Wow Class Helper"
     while self.status == "running" 
       
-      self.prompt_user_to_select_class
-      unless self.selected_class.nil?
+      if self.selected_class.nil?
+        self.prompt_user_to_select_class
         
+      elsif self.selected_spec.nil?
         self.prompt_user_to_select_specialization
-        unless self.selected_spec.nil?
           
-          self.prompt_user_for_spec_options
-        end
+      else 
+        self.prompt_user_for_spec_options
       end
     end
   end
@@ -50,6 +50,7 @@ class CommandLineInterface
   def prompt_user_to_select_specialization
     chosen_specialization = nil
     while chosen_specialization.nil?
+      system('clear')
       puts "What specialization would you like to look at?"
       self.selected_class.show_specializations
       input = gets.strip
@@ -70,11 +71,13 @@ class CommandLineInterface
         when "help"
           self.selected_spec.show_menu_options
         when "single target rotation"
-          self.selected_spec.single_target_rotation.display
+          self.selected_spec.single_target_rotation
         when "aoe rotation"
-          self.selected_spec.aoe_rotation.display
+          self.selected_spec.aoe_rotation
         when "cooldowns"
-          self.selected_spec.cooldowns.display
+          self.selected_spec.cooldowns
+        when "back"
+          self.selected_spec = nil
       end
     end
   end
@@ -85,10 +88,6 @@ class CommandLineInterface
   
   def spec_name
     self.selected_spec.name
-  end
-  
-  def show_spec_cooldowns
-    
   end
   
   def create_all_classes

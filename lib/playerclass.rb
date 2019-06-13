@@ -7,6 +7,9 @@ class PlayerClass
   
   
   def initialize(class_name, spec_hash)
+    
+    #spec_hash is a hash that has keys that represent the specialization names and the value are the url to the specializations main page
+    
     @name = class_name
     self.specializations = []
     self.add_specializations(spec_hash)

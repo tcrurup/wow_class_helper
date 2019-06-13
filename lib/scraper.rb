@@ -61,7 +61,7 @@ class Scraper
     page_sections
   end
   
- def self.scrape_from_element_list(rotation_elements)
+  def self.scrape_from_element_list(rotation_elements)
     rotation = []
     rotation_elements.css("li").each do |rotation_step|
       str = []
@@ -85,6 +85,28 @@ class Scraper
   end
   
   def self.scrape_base_classes
+    
+    #returns an array of hashes.  Each hash has a :name for the class and :specializations which is another hash containing the spec name as a key and that specializations url as the value
+    <<-EXAMPLE
+    [
+      {:name => 'Mage', 
+        :specializations => {
+          :fire => 'fireurl.com',
+          :frost => 'frosturl.com',
+          :arcane => 'arcaneurl.com'
+        }
+      },
+      {name => 'Druid,
+        :specializations => {
+          :feral => 'feralurl.com',
+          :restoration => 'restorationurl.com',
+          :balance => 'balanceurl.com'
+          :guardian => 'guardianurl.com'
+        }
+      }
+    ] 
+    EXAMPLE
+    
     page = Nokogiri::HTML(open(BASE_PATH))  
     classes = page.css("li.dd").first.css("ul.dr>li")
     all_classes = []

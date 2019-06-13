@@ -20,12 +20,13 @@ class PageSection
   end
   
   def display
-    
+    system('clear')
     puts self.title
     puts "----------------------------"
     puts self.list
     puts "*notes*"
     puts self.notes
+    puts "----------------------------"
   end
   
 end

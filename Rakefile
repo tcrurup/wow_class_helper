@@ -4,7 +4,7 @@ require_relative "./config/environment.rb"
 task :default => :spec
 
 task :console do 
-  CommandLineInterface.new.run
+  CommandLineInterface.new
   Pry.start
 end
 
