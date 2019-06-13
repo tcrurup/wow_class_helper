@@ -33,17 +33,7 @@ class PlayerClass
     self.specializations.detect{ |spec| spec.name.to_s.downcase == spec_name.downcase}
   end
   
-  def prompt_user_to_select_specialization
-    chosen_specialization = nil
-    while chosen_specialization.nil?
-      puts "What specialization would you like to look at?"
-      self.show_specializations
-      input = gets.strip
-      chosen_specialization = self.get_spec_by_name(input)
-      puts "invalid option " if chosen_specialization.nil?
-    end
-    chosen_specialization
-  end
+  
   
   def save
     self.class.all << self

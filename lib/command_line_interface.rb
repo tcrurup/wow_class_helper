@@ -1,6 +1,6 @@
 class CommandLineInterface
   
-  attr_accessor :status, :selected_class
+  attr_accessor :status, :selected_class, :selected_spec
   
   
   def initialize
@@ -21,10 +21,10 @@ class CommandLineInterface
       self.prompt_user_to_select_class
       unless self.selected_class.nil?
         
-        current_spec = self.selected_class.prompt_user_to_select_specialization
-        unless current_spec.nil?
+        self.prompt_user_to_select_specialization
+        unless self.selected_spec.nil?
         
-        current_spec.menu_prompt
+        self.selected_spec.menu_prompt
         end
       end
     end
@@ -45,6 +45,18 @@ class CommandLineInterface
       end
     end
     self.selected_class = chosen_class
+  end
+  
+  def prompt_user_to_select_specialization
+    chosen_specialization = nil
+    while chosen_specialization.nil?
+      puts "What specialization would you like to look at?"
+      self.selected_class.show_specializations
+      input = gets.strip
+      chosen_specialization = self.selected_class.get_spec_by_name(input)
+      puts "invalid option " if chosen_specialization.nil?
+    end
+    self.selected_spec = chosen_specialization
   end
   
   
