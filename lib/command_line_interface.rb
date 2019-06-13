@@ -92,7 +92,7 @@ class CommandLineInterface
   
   def create_all_classes
     Scraper.scrape_base_classes.each do |class_hash|
-      PlayerClass.new(class_hash[:name], class_hash[:specializations])
+      PlayerClass.new(class_hash)
     end
   end
   

@@ -3,21 +3,21 @@ class PlayerClass
   @@all = []
   
   attr_accessor :specializations
-  attr_reader :name
+  attr_reader :name, :spec_url_hash
   
   
-  def initialize(class_name, spec_hash)
+  def initialize(class_hash)
     
     #spec_hash is a hash that has keys that represent the specialization names and the value are the url to the specializations main page
     
-    @name = class_name
+    @name = class_hash[:name]
+    @spec_url_hash = class_hash[:specializations]
     self.specializations = []
-    self.add_specializations(spec_hash)
     self.save
   end
   
-  def add_specializations(spec_hash)
-    spec_hash.each do |spec_name, url|
+  def populate_specializations
+    self.spec_url_hash.each do |spec_name, url|
       new_spec = Specialization.new(spec_name, url)
       self.specializations << new_spec
       new_spec.parent_class = self
@@ -36,8 +36,6 @@ class PlayerClass
     self.specializations.detect{ |spec| spec.name.to_s.downcase == spec_name.downcase}
   end
   
-  
-  
   def save
     self.class.all << self
   end
@@ -47,7 +45,9 @@ class PlayerClass
   end
   
   def self.find_by_class_name(class_name)
-    self.all.detect{ |player_class| player_class.name.downcase == class_name.downcase }
+    self.all.detect{ |player_class| player_class.name.downcase == class_name.downcase }.tap do |pc|
+      pc.populate_specializations
+    end
   end
   
   def self.print_all_classes

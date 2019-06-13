@@ -38,26 +38,6 @@ class Specialization
     @cooldowns.display
   end
   
-  def menu_prompt
-    system("clear")
-    input = String.new 
-    until input == "back"
-      puts "What would you like to view for the #{self.name} #{self.parent_class.name}?"
-      puts "Type 'help' for a list of options"
-      input = gets.strip
-      case input
-      when "help"
-        self.show_menu_options
-      when "single target rotation"
-        self.single_target_rotation.display
-      when "aoe rotation"
-        self.aoe_rotation.display
-      when "cooldowns"
-        self.cooldowns.display
-      end
-    end
-  end
-  
   def show_menu_options
     all_options = []
     VALID_MENU_OPTIONS.each do |option|
