@@ -23,8 +23,8 @@ class CommandLineInterface
         
         self.prompt_user_to_select_specialization
         unless self.selected_spec.nil?
-        
-        self.selected_spec.menu_prompt
+          
+          self.prompt_user_for_spec_options
         end
       end
     end
@@ -59,6 +59,37 @@ class CommandLineInterface
     self.selected_spec = chosen_specialization
   end
   
+  def prompt_user_for_spec_options
+    system("clear")
+    input = String.new 
+    until input == "back"
+      puts "What would you like to view for the #{self.spec_name} #{self.char_class_name}?"
+      puts "Type 'help' for a list of options or 'back' to return to specialization selector"
+      input = gets.strip
+      case input
+        when "help"
+          self.selected_spec.show_menu_options
+        when "single target rotation"
+          self.selected_spec.single_target_rotation.display
+        when "aoe rotation"
+          self.selected_spec.aoe_rotation.display
+        when "cooldowns"
+          self.selected_spec.cooldowns.display
+      end
+    end
+  end
+  
+  def char_class_name 
+    self.selected_class.name  
+  end
+  
+  def spec_name
+    self.selected_spec.name
+  end
+  
+  def show_spec_cooldowns
+    
+  end
   
   def create_all_classes
     Scraper.scrape_base_classes.each do |class_hash|
