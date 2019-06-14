@@ -33,15 +33,11 @@ class PlayerClass
   end
   
   def get_spec_by_name(spec_name)
-    self.specializations.detect{ |spec| 
-      spec.name.to_s.downcase == spec_name.downcase
-    }.tap do |spec_obj|
-      spec_obj.populate_rotations_and_cooldowns
-    end
+    Specialization.get_spec_by_name(spec_name) if self.has_specialization?(spec_name)
   end
   
-  def self.has_spec(spec_name)
-    
+  def has_specialization?(spec_name)
+    self.specializations.any?{ |spec_obj| spec_obj.name.to_s.downcase == spec_name.downcase }
   end
   
   def save
