@@ -3,7 +3,7 @@ class PlayerClass
   @@all = []
   
   attr_accessor :specializations
-  attr_reader :name, :spec_url_hash
+  attr_reader :name, :spec_url_hash, :populated
   
   
   def initialize(class_hash)
@@ -12,6 +12,7 @@ class PlayerClass
     
     @name = class_hash[:name]
     @spec_url_hash = class_hash[:specializations]
+    @populated = false
     self.specializations = []
     self.save
   end
@@ -22,6 +23,7 @@ class PlayerClass
       self.specializations << new_spec
       new_spec.parent_class = self
     end
+    @populated = true
   end
   
   def show_specializations
@@ -49,10 +51,11 @@ class PlayerClass
   end
   
   def self.find_by_class_name(class_name)
-    self.all.detect{ |player_class| 
+    index = self.all.detect do |player_class| 
       player_class.name.downcase == class_name.downcase 
-    }.tap do |pc|
-      pc.populate_specializations
+    end
+    index.tap do |x| 
+      x.populate_specializations unless index.populated
     end
   end
   

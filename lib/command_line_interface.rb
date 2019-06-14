@@ -23,11 +23,13 @@ class CommandLineInterface
     system("clear")
     puts "Welcome to the Wow Class Helper"
     while self.status == "running" 
+    
       if self.selected_class.nil?
         self.prompt_user_to_select_class
         
       elsif self.selected_spec.nil?
         self.prompt_user_to_select_specialization
+        
       else 
         self.prompt_user_for_spec_options
       end
