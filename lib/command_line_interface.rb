@@ -6,6 +6,8 @@ class CommandLineInterface
   def initialize
     self.create_all_classes
     @status = "ready"
+    @selected_class = nil
+    @selected_spec = nil
   end
   
   def run
@@ -26,7 +28,6 @@ class CommandLineInterface
         
       elsif self.selected_spec.nil?
         self.prompt_user_to_select_specialization
-          
       else 
         self.prompt_user_for_spec_options
       end
@@ -34,35 +35,52 @@ class CommandLineInterface
   end
   
   def prompt_user_to_select_class
-    while self.selected_class.nil?
+    while self.selected_class.nil? && self.running?
       puts "What class would you like to look at? ('exit' to quit)"
       puts "'quit' to quit, 'show classes' to view all options"
       input = gets.strip
       case input
         when "show classes"
           PlayerClass.print_all_classes
-        when "exit"
+        when "quit"
           self.status = "ended"
         else
           self.selected_class = PlayerClass.find_by_class_name(input)
+          puts "invalid option " if self.selected_class.nil?
       end
-      
-      puts "invalid option " if self.selected_class.nil?
     end
   end
   
   def prompt_user_to_select_specialization
-    chosen_specialization = nil
-    input = ""
-    while chosen_specialization.nil?
+    while !self.spec_selected? && self.class_selected? && self.running?
+      
       system('clear')
       puts "What specialization would you like to look at?"
       self.selected_class.show_specializations
+      
       input = gets.strip
-      chosen_specialization = self.selected_class.get_spec_by_name(input)
-      puts "invalid option " if chosen_specialization.nil?
+      case input
+        when 'back'
+          self.selected_class = nil
+        when 'quit'
+          self.status = "ended"
+        else 
+          self.selected_spec = self.selected_class.get_spec_by_name(input)
+          puts "invalid option " unless spec_selected?
+      end
     end
-    self.selected_spec = chosen_specialization
+  end
+  
+  def spec_selected?
+    self.selected_spec != nil
+  end
+  
+  def running?
+    self.status == 'running'
+  end
+  
+  def class_selected?
+    self.selected_class != nil
   end
   
   def prompt_user_for_spec_options

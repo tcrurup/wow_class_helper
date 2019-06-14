@@ -40,6 +40,10 @@ class PlayerClass
     end
   end
   
+  def self.has_spec(spec_name)
+    
+  end
+  
   def save
     self.class.all << self
   end
