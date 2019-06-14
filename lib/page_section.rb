@@ -24,6 +24,7 @@ class PageSection
     puts self.title
     puts "----------------------------"
     puts self.list
+    puts ""
     puts "*notes*"
     puts self.notes
     puts "----------------------------"

@@ -21,7 +21,6 @@ class CommandLineInterface
     system("clear")
     puts "Welcome to the Wow Class Helper"
     while self.status == "running" 
-      
       if self.selected_class.nil?
         self.prompt_user_to_select_class
         
@@ -35,24 +34,26 @@ class CommandLineInterface
   end
   
   def prompt_user_to_select_class
-    chosen_class = nil
-    while chosen_class.nil?
+    while self.selected_class.nil?
       puts "What class would you like to look at? ('exit' to quit)"
       puts "'quit' to quit, 'show classes' to view all options"
       input = gets.strip
       case input
-      when "show classes"
-        PlayerClass.print_all_classes
-      else
-       chosen_class = PlayerClass.find_by_class_name(input)
-       puts "invalid option " if chosen_class.nil?
+        when "show classes"
+          PlayerClass.print_all_classes
+        when "exit"
+          self.status = "ended"
+        else
+          self.selected_class = PlayerClass.find_by_class_name(input)
       end
+      
+      puts "invalid option " if self.selected_class.nil?
     end
-    self.selected_class = chosen_class
   end
   
   def prompt_user_to_select_specialization
     chosen_specialization = nil
+    input = ""
     while chosen_specialization.nil?
       system('clear')
       puts "What specialization would you like to look at?"

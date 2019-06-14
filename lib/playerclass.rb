@@ -57,7 +57,22 @@ class PlayerClass
   end
   
   def self.print_all_classes
-    self.all.each{ |player_class| puts player_class.name }
+    system('clear')
+    puts "             CLASSES                "
+    puts '------------------------------------'
+    count = 0;
+    self.all.each{ |player_class|
+      count += 1
+      print " #{player_class.name} "
+      
+      if count == 3
+        count = 0
+        puts ""
+      else
+        print "|"
+      end
+    }
+    puts '------------------------------------'
   end
   
 end
