@@ -58,6 +58,8 @@ class CommandLineInterface
       
       system('clear')
       puts "What specialization would you like to look at?"
+      puts "'quit' to quit, 'back' to select Class"
+      puts "-------------------------------------------------"
       self.selected_class.show_specializations
       
       input = gets.strip

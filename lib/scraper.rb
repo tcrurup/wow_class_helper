@@ -40,24 +40,22 @@ class Scraper
       #Do nothing, nothing before the first rotation list is needed
       element = element.next
     end
-    
     until element.text == "AoE Rotation"
       #Everything before AoE rotation section belongs to Single Target Rotation
       page_sections[:single_target_rotation] << element
       element = element.next
     end
-    
     until element.text == "Effective Cooldowns"
       page_sections[:aoe_rotation] << element
       element = element.next
       #Everything before Effective Cooldowns section belongs to AoE Rotation
     end
-    
-    until element.next == nil
+    until element == nil
+    binding.pry
       page_sections[:cooldowns] << element
       element = element.next
     end
-    
+    binding.pry
     page_sections
   end
   
