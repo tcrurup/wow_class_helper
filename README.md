@@ -1,8 +1,6 @@
 # WowClassHelper
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/wow_class_helper`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+This gem is intended to assist users with the popular online game World of Warcraft.  You can access all the latest cooldowns, single target, and area of effect data for the current patch by choosing your class and it's associated specialization
 
 ## Installation
 
