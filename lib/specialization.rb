@@ -7,9 +7,9 @@ class Specialization
   @@all = []
   
   VALID_MENU_OPTIONS = [
-    "single target rotation",
-    "aoe rotation",
-    "cooldowns"
+    "Single Target Rotation",
+    "Aoe Rotation",
+    "Cooldowns"
   ]
   
   def initialize(spec_name, url)
@@ -46,7 +46,10 @@ class Specialization
     VALID_MENU_OPTIONS.each do |option|
       all_options << option
     end
+    puts "             OPTIONS                "
+    puts '----------------------------------------------------------------------'
     puts all_options.join(" | ")
+    puts '----------------------------------------------------------------------'
   end
   
   def self.all

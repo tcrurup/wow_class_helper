@@ -51,11 +51,9 @@ class Scraper
       #Everything before Effective Cooldowns section belongs to AoE Rotation
     end
     until element == nil
-    binding.pry
       page_sections[:cooldowns] << element
       element = element.next
     end
-    binding.pry
     page_sections
   end
   
