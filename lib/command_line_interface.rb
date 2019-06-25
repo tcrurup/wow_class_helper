@@ -11,7 +11,7 @@ class CommandLineInterface
   end
 
   def run
-    if self.status == "ready"
+    if @status == "ready"
       self.status = "running"
       self.interface
     else
@@ -60,7 +60,10 @@ class CommandLineInterface
       puts "What specialization would you like to look at?"
       puts "'quit' to quit, 'back' to select Class"
       puts "-------------------------------------------------"
-      self.selected_class.show_specializations
+      # move show_specializations to CLI
+      # the object will have to be passed along to the method
+      # reduce the body of the method to one line of code
+      self.show_specializations
 
       input = gets.strip.downcase
       case input
@@ -73,6 +76,10 @@ class CommandLineInterface
           puts "invalid option " unless spec_selected?
       end
     end
+  end
+
+  def show_specializations
+    puts selected_class.specializations.collect{ |spec| spec.name }.join(" | ")
   end
 
   def prompt_user_for_spec_options
