@@ -75,18 +75,6 @@ class CommandLineInterface
     end
   end
 
-  def spec_selected?
-    self.selected_spec != nil
-  end
-
-  def running?
-    self.status == 'running'
-  end
-
-  def class_selected?
-    self.selected_class != nil
-  end
-
   def prompt_user_for_spec_options
     system("clear")
     input = String.new
@@ -110,6 +98,18 @@ class CommandLineInterface
           self.status = "ended"
       end
     end
+  end
+
+  def spec_selected?
+    self.selected_spec != nil
+  end
+
+  def running?
+    self.status == 'running'
+  end
+
+  def class_selected?
+    self.selected_class != nil
   end
 
   def char_class_name
