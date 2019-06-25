@@ -1,15 +1,15 @@
 class CommandLineInterface
-  
+
   attr_accessor :status, :selected_class, :selected_spec
-  
-  
+
+
   def initialize
-    self.create_all_classes
+    self.class.create_all_classes
     @status = "ready"
     @selected_class = nil
     @selected_spec = nil
   end
-  
+
   def run
     if self.status == "ready"
       self.status = "running"
@@ -18,24 +18,24 @@ class CommandLineInterface
       puts "CLI is not ready to run."
     end
   end
-  
-  def interface 
+
+  def interface
     system("clear")
     puts "Welcome to the Wow Class Helper"
-    while self.status == "running" 
-    
+    while self.status == "running"
+
       if self.selected_class.nil?
         self.prompt_user_to_select_class
-        
+
       elsif self.selected_spec.nil?
         self.prompt_user_to_select_specialization
-        
-      else 
+
+      else
         self.prompt_user_for_spec_options
       end
     end
   end
-  
+
   def prompt_user_to_select_class
     while self.selected_class.nil? && self.running?
       puts "What class would you like to look at? ('exit' to quit)"
@@ -52,44 +52,44 @@ class CommandLineInterface
       end
     end
   end
-  
+
   def prompt_user_to_select_specialization
     while !self.spec_selected? && self.class_selected? && self.running?
-      
+
       system('clear')
       puts "What specialization would you like to look at?"
       puts "'quit' to quit, 'back' to select Class"
       puts "-------------------------------------------------"
       self.selected_class.show_specializations
-      
+
       input = gets.strip.downcase
       case input
         when 'back'
           self.selected_class = nil
         when 'quit'
           self.status = "ended"
-        else 
+        else
           self.selected_spec = self.selected_class.get_spec_by_name(input)
           puts "invalid option " unless spec_selected?
       end
     end
   end
-  
+
   def spec_selected?
     self.selected_spec != nil
   end
-  
+
   def running?
     self.status == 'running'
   end
-  
+
   def class_selected?
     self.selected_class != nil
   end
-  
+
   def prompt_user_for_spec_options
     system("clear")
-    input = String.new 
+    input = String.new
     until input == "back" || !self.running?
       puts "What would you like to view for the #{self.spec_name} #{self.char_class_name}?"
       puts "Type 'help' for menu options, 'back' to return to specialization selector, or 'quit' to quit"
@@ -111,21 +111,21 @@ class CommandLineInterface
       end
     end
   end
-  
-  def char_class_name 
+
+  def char_class_name
     #Necessary?
-    self.selected_class.name  
+    self.selected_class.name
   end
-  
+
   def spec_name
     #Necessary?
     self.selected_spec.name
   end
-  
-  def create_all_classes
+
+  def self.create_all_classes
     Scraper.scrape_base_classes.each do |class_hash|
       PlayerClass.new(class_hash)
     end
   end
-  
+
 end
