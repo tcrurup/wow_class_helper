@@ -19,6 +19,8 @@ class Scraper
 
   def self.scrape_rotations_and_cooldowns(spec_page_url)
 
+    #Returns a hash with keys that represent the names of page sections and a value that is
+    #an array of HTML elements belonging to the section
     page_sections = {
       :single_target_rotation => [],
       :aoe_rotation => [],
